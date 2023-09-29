@@ -10,7 +10,7 @@ from ygpt.models.generation_options import GenerationOptions
 class YandexGPT(RestAdapter):
     def embed(self, text: str,
               embedding_type: str,
-              model: str = 'general:embedding'):
+              model: str = 'general:embedding')-> EmbeddingResponse:
         """Generate an embedding for the input text.
         Args:
             embedding_type (str): The type of embedding to generate. Options are:
@@ -22,7 +22,7 @@ class YandexGPT(RestAdapter):
             text (str): The input text to generate an embedding for.
 
         Returns:
-            embedding: The embedding for the input text.
+            embedding: The embedding (vector) for the input text.
         """
         res = self.post(endpoint='embedding', data={'embeddingType': embedding_type, 'model': model, 'text': text})
         return EmbeddingResponse(**res)
