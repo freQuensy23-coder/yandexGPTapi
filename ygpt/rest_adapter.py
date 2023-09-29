@@ -116,6 +116,7 @@ class RestAdapter:
             url=url,
             **kwargs
         )
+        logger.debug(f'Response result {result.content}')
         return result
 
     def get(self, endpoint: str, ep_params: dict = None) -> [dict]:

@@ -7,9 +7,9 @@ from ygpt.models.responses.tokenize_response import TokenizationResponse
 from ygpt.models.generation_options import GenerationOptions
 
 
-class YGPT_api(RestAdapter):
+class YandexGPT(RestAdapter):
     def embed(self, text: str,
-              embedding_type: str = 'EMBEDDING_TYPE_UNSPECIFIED',
+              embedding_type: str,
               model: str = 'general:embedding'):
         """Generate an embedding for the input text.
         Args:
@@ -24,8 +24,8 @@ class YGPT_api(RestAdapter):
         Returns:
             embedding: The embedding for the input text.
         """
-        r = self.post(endpoint='embedding', data={'embeddingType': embedding_type, 'model': model, 'text': text})
-        return EmbeddingResponse(**r.json())
+        res = self.post(endpoint='embedding', data={'embeddingType': embedding_type, 'model': model, 'text': text})
+        return EmbeddingResponse(**res)
 
     def tokenize(self, text: str, model: str = 'general'):
         """Tokenize the input text.
@@ -37,24 +37,37 @@ class YGPT_api(RestAdapter):
         Returns:
             tokens: The tokenized input text.
         """
-        r = self.post(endpoint='tokenize', data={'model': model, 'text': text})
-        return TokenizationResponse(**r.json())
+        res = self.post(endpoint='tokenize', data={'model': model, 'text': text})
+        return TokenizationResponse(**res)
 
     def generate_instruct(self, instruction_text: str,
                           instruction_uri: str = None,
                           request_text: str = None,
                           generation_options: GenerationOptions | dict = config.default_generation_options,
-                          model: str = 'general'):
+                          model: str = 'general',
+                          temperature: float = None,
+                          max_tokens: int = None,
+                          partial_results: bool = None,
+                          ):
         if isinstance(generation_options, dict):
             generation_options = GenerationOptions(**generation_options)
+
+        # Model parameters override generation options
+        if temperature is not None:
+            generation_options.temperature = temperature
+        if max_tokens is not None:
+            generation_options.max_tokens = max_tokens
+        if partial_results is not None:
+            generation_options.partial_results = partial_results
+
         if (((instruction_uri is None) and (request_text is None)) or
                 ((instruction_uri is not None) and (request_text is not None))):
             raise ValueError('includes only one of the fields instructionText, instructionUri')
 
-        r = self.post(endpoint='instruct',
-                      data={'instructionText': instruction_text,
-                            'instructionUri': instruction_uri,
-                            'requestText': request_text,
-                            'model': model,
-                            'generationOptions': generation_options.model_dump()})
-        return GenerateTextInstructResponse(**r.json())
+        res = self.post(endpoint='instruct',
+                        data={'instructionText': instruction_text,
+                              'instructionUri': instruction_uri,
+                              'requestText': request_text,
+                              'model': model,
+                              'generationOptions': generation_options.model_dump()})
+        return GenerateTextInstructResponse(**res['result'])

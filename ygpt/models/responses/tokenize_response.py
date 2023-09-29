@@ -1,3 +1,5 @@
+from typing import List
+
 from pydantic import BaseModel
 
 
@@ -8,4 +10,4 @@ class Token(BaseModel):
 
 
 class TokenizationResponse(BaseModel):
-    tokens: [Token]
+    tokens: List[Token]
