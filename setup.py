@@ -7,5 +7,5 @@ setup(
     description='Yandendex GPT2 api wrapper',
     author='t.me/freQuensy23',
     license='MIT',
-    install_requires=['pydantic', 'requests', 'python-dotenv'],
+    install_requires=['pydantic', 'requests', 'python-dotenv', 'loguru'],
 )
