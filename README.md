@@ -1,4 +1,5 @@
 ## Info 
+![](https://avatars.mds.yandex.net/get-lpc/10704932/c244d2ce-b8a9-4821-83b3-63f32b45b808/orig)
 This is simple api wrapper for [Yandex gpt api](https://cloud.yandex.ru/docs/yandexgpt/quickstart). 
 
 ## Installation
