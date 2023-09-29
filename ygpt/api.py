@@ -58,7 +58,7 @@ class YandexGPT(RestAdapter):
         if max_tokens is not None:
             generation_options.max_tokens = max_tokens
         if partial_results is not None:
-            generation_options.partial_results = partial_results
+            generation_options.partialResults = partial_results
 
         if (((instruction_uri is None) and (request_text is None)) or
                 ((instruction_uri is not None) and (request_text is not None))):
