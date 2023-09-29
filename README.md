@@ -19,5 +19,6 @@ text_vector = api.embed(text=text, embedding_type='EMBEDDING_TYPE_QUERY', model=
 
 instruction = 'You are ai assistant. You have to answer on user questions.'
 text = 'What is the biggest plane in the world?'
-print(api.generate_instruct(instruction_text=instruction, request_text=text).alternatives[0].text)
+print(api.generate_instruct(instruction_text=instruction, request_text=text).alternatives[0].text) 
+# The biggest plane in the world is the Antonov An-225 Mriya, which has a wingspan of 366 feet and can carry up to 360...
 ```
